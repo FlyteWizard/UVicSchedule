@@ -14,8 +14,13 @@ pip install icalendar
 
 ## Usage
 
+
 ```sh
 python3 getSchedule.py calendar.ics
+```
+
+```sh
+python3 changeTerm.py
 ```
 
 ## Credits
