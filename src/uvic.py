@@ -1,5 +1,5 @@
 import os
-import cookielib
+import http.cookiejar
 from getpass import getpass
 
 import mechanize
@@ -25,7 +25,7 @@ class Auth:
         self._browser.addheaders = [('User-agent', 'Chrome')]
 
         # Load the CookieJar from the CookieJar file if it exists
-        self.cookies = cookielib.LWPCookieJar()
+        self.cookies = http.cookiejar.LWPCookieJar()
 
         self._browser.set_cookiejar(self.cookies)
 
@@ -42,7 +42,7 @@ class Auth:
             self._browser.select_form(predicate=lambda form:"id" in form.attrs and form.attrs['id'] == "fm1")
 
             # Enter the credentials
-            self._browser.form['username'] = raw_input('Netlink ID: ')
+            self._browser.form['username'] = input('Netlink ID: ')
             self._browser.form['password'] = getpass()
 
             # Login
@@ -52,23 +52,23 @@ class Auth:
         for form in self._browser.forms():
             if form.action.endswith('/bwskfshd.P_CrseSchdDetl'):
 
-                print "Please select a term:"
+                print ("Please select a term:")
 
                 # Grab the selector
                 self._browser.form = form
                 selector = self._browser.find_control('term_in')
-                terms = [i for i in selector.items if '(View only)' not in i.get_labels()[0]._text]
+                terms = [i for i in selector.items if '(View only)' not in i.get_labels()[0].text]
                 for i, option in enumerate(terms):
-                    print "  [{0}] {1}".format(i + 1, option.get_labels()[0]._text)
+                    print ("  [{0}] {1}".format(i + 1, option.get_labels()[0].text))
 
                 term_number = None
                 while type(term_number) is not int or term_number >= len(terms) or term_number < 0:
                     try:
-                        term_number = int(raw_input('Select term: ')) - 1
+                        term_number = int(input('Select term: ')) - 1
                     except ValueError:
                         continue
 
-                # print terms[term_number].get_labels()[0]._text
+                # print terms[term_number].get_labels()[0].text
                 selector.value = [terms[term_number].name]
 
                 response = self._browser.submit()
