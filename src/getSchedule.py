@@ -124,22 +124,20 @@ def main():
             event.add('dtstamp', datetime.datetime.utcnow().replace(tzinfo=pytz.utc))
             event.add('rrule', {'FREQ': ['weekly'], 'BYDAY': weekdays, 'INTERVAL': interval, "UNTIL": until_datetime})
 
-            event['location'] = vText(locationmatch(location))
-            event['description'] = vText("\n".join([item + ": " + value for item, value in description.iteritems()]))
+            # event['location'] = vText(locationmatch(location))
+            # event['description'] = vText("\n".join([item + ": " + value for item, value in description.iteritems()]))
 
             cal.add_component(event)
 
-    print cal.to_ical()
-
-    if not os.path.exists(os.path.dirname(output_file)):
-        try:
-            os.makedirs(os.path.dirname(output_file))
-        except OSError as exc: # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
-
-    with open(output_file, 'wb') as f:
-        f.write(cal.to_ical())
+    # if not os.path.exists(os.path.dirname(output_file)):
+        # try:
+            # os.makedirs(os.path.dirname(output_file))
+        # except OSError as exc: # Guard against race condition
+            # if exc.errno != errno.EEXIST:
+                # raise
+    
+    with open(output_file, 'w') as f:
+        f.write((cal.to_ical()).decode())
         f.close()
 
     logging.info('Done')
@@ -165,7 +163,7 @@ def locationmatch(location):
 if __name__ == "__main__":
 
     if len(sys.argv) > 2:
-        print "Usage: python {0} [<output file>]".format(sys.argv[0])
+        print ("Usage: python {0} [<output file>]".format(sys.argv[0]))
         sys.exit(0)
     elif len(sys.argv) == 2:
         output_file = sys.argv[1]
@@ -173,5 +171,5 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print '\nExiting by user request.\n'
+        print ('\nExiting by user request.\n')
         sys.exit(0)
