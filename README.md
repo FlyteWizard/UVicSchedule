@@ -20,5 +20,5 @@ python3 getSchedule.py out/calendar.ics
 
 ## Credits
 
-[Brynn Hawker](https://github.com/hwkr) for the original UVicSchedule.
-[Denis Kisselev](https://github.com/dkisselev) for the original UVic Auth script.
+* [Brynn Hawker](https://github.com/hwkr) for the original UVicSchedule.
+* [Denis Kisselev](https://github.com/dkisselev) for the original UVic Auth script.
