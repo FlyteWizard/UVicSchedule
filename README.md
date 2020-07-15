@@ -14,7 +14,9 @@ pip install icalendar
 
 ## Usage
 
-python3 getSchedule.py > out/calendar.ics
+```sh
+python3 getSchedule.py out/calendar.ics
+```
 
 ## Credits
 
