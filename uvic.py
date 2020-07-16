@@ -1,7 +1,7 @@
-# Import OS, http.cookiejar, mechanize, and getpass from getpass
-import os
+# Import http.cookiejar, mechanize, os, and getpass from getpass
 import http.cookiejar
 import mechanize
+import os
 from getpass import getpass
 
 # Cookie File for Holding Login Status for UVic NETLINK ID
