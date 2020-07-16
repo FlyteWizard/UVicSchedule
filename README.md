@@ -26,7 +26,7 @@ python3 getSchedule.py calendar-TERM.ics
 
 ### Change Selected Term
 
-To change the selected term run the following command. You will be prompted to select a term. If you aren't logged in, you will be prompted to login with your NETLINK ID and PASSWORD.
+To change the selected term run the following command. You will be prompted to select a term. If you aren't logged in, you will be prompted to login with your NETLINK ID and PASSWORD. **Note** You will need to re-run `python3 getSchedule.py calendar-TERM.ics` command after changing the selected term to create a new `.ics` file for the new selected term. 
 
 ```sh
 python3 changeTerm.py
