@@ -119,13 +119,6 @@ def main():
             event['description'] = vText("\n".join([item + ": " + value for item, value in description.items()]))
 
             cal.add_component(event)
-
-    if not os.path.exists(os.path.dirname(output_file)):
-        try:
-            os.makedirs(os.path.dirname(output_file))
-        except OSError as exc: # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
     
     with open(output_file, 'w') as f:
         f.write((cal.to_ical()).decode())
