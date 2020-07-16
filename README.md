@@ -44,6 +44,25 @@ Below is a list of links to resources if you need help, or want to read more abo
 * [Import to Apple Calendar](https://support.apple.com/en-ca/guide/calendar/icl1023/mac)
 * [Import to Outlook Calendar](https://support.microsoft.com/en-us/office/import-or-subscribe-to-a-calendar-in-outlook-on-the-web-503ffaf6-7b86-44fe-8dd6-8099d95f38df)
 
+## `.ics` Format
+
+```ics
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//UVic Schedule//UVic Schedule to Calendar Format Script//EN
+BEGIN:VEVENT
+SUMMARY:COURSE XXX TYPE
+DTSTART;TZID=America/Vancouver;VALUE=DATE-TIME:XXXXXXXXTXXXXXX
+DTEND;TZID=America/Vancouver;VALUE=DATE-TIME:XXXXXXXXTXXXXXX
+DTSTAMP;VALUE=DATE-TIME:XXXXXXXXTXXXXXXZ
+RRULE:FREQ=FREQUENCY;UNTIL=XXXXXXXXTXXXXXX;INTERVAL=X;BYDAY=DAY
+DESCRIPTION:Instructor: FirstName LastName\nSection: XXX\nCRN: XXXXX\nRegistr
+ ation Status: STATUS\nInstructors Email Address: EMAIL
+LOCATION:LOCATION
+END:VEVENT
+END:VCALENDA
+```
+
 ## Credits
 
 * [Brynn Hawker](https://github.com/hwkr) for the original UVicSchedule.
