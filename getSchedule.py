@@ -215,7 +215,7 @@ def locationmatch(location):
 
 if __name__ == "__main__":
     if len(sys.argv) > 2:
-        print ("Usage: python {0} [<calendar-TERM.ics>]".format(sys.argv[0]))
+        print("Usage: python {0} [<calendar-TERM.ics>]".format(sys.argv[0]))
         sys.exit(0)
     elif len(sys.argv) == 2:
         output_file = sys.argv[1]
@@ -223,5 +223,5 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print ("\nExiting by user request.\n")
+        print("\nExiting by user request.\n")
         sys.exit(0)
