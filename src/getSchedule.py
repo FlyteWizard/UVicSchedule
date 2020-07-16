@@ -3,7 +3,6 @@ import re
 import sys
 import os
 import datetime
-
 import errno
 import pytz
 from bs4 import BeautifulSoup
@@ -11,19 +10,16 @@ from icalendar import Calendar, Event, vText
 
 import uvic
 
-
 COURSE_TITLE_RE = re.compile(r"([A-Z]+ [A-Z0-9]*) - ([A-Z][0-9]+)")
 
-
 ICAL_WEEKDAY_DICTIONARY = {
-    "Su": "SU",  # TODO: Figure out if this is right
+    "Su": "SU",
     "M": "MO",
     "T": "TU",
     "W": "WE",
     "R": "TH",
     "F": "FR",
     "S": "SA"
-
 }
 
 ICAL_WEEKDAYS = [
@@ -41,13 +37,11 @@ ICAL_FREQUENCY_DICTIONARY = {
     "Every Second Week": 2
 }
 
-output_file = "out/calendar.ics"
 UVIC_BUILDING_CODES = {
     "Cornett Building": "COR",
     "Engineering Comp Science Bldg": "ECS",
     "Engineering Lab Wing": "ELW"
 }
-
 
 def main():
     # Set up logging
@@ -102,16 +96,13 @@ def main():
 
             location = time_soup[3].string
 
-            time_range = [datetime.datetime.strptime(time.strip(), "%I:%M %p") for time in
-                          time_soup[1].text.split("-")]
-            date_range = [datetime.datetime.strptime(date.strip(), "%b %d, %Y") for date in
-                          time_soup[4].text.split("-")]
+            time_range = [datetime.datetime.strptime(time.strip(), "%I:%M %p") for time in time_soup[1].text.split("-")]
+            date_range = [datetime.datetime.strptime(date.strip(), "%b %d, %Y") for date in time_soup[4].text.split("-")]
 
             interval = ICAL_FREQUENCY_DICTIONARY[time_soup[0].text]
             weekdays = [ICAL_WEEKDAY_DICTIONARY[day] for day in time_soup[2].text.strip()]
 
-            start_datetime = date_range[0].replace(hour=time_range[0].hour, minute=time_range[0].minute,
-                                                   tzinfo=pytz.timezone("America/Vancouver"))
+            start_datetime = date_range[0].replace(hour=time_range[0].hour, minute=time_range[0].minute, tzinfo=pytz.timezone("America/Vancouver"))
             while ICAL_WEEKDAYS[start_datetime.weekday()] not in weekdays:
                 start_datetime += datetime.timedelta(days=1)
 
@@ -124,17 +115,17 @@ def main():
             event.add('dtstamp', datetime.datetime.utcnow().replace(tzinfo=pytz.utc))
             event.add('rrule', {'FREQ': ['weekly'], 'BYDAY': weekdays, 'INTERVAL': interval, "UNTIL": until_datetime})
 
-            # event['location'] = vText(locationmatch(location))
-            # event['description'] = vText("\n".join([item + ": " + value for item, value in description.iteritems()]))
+            event['location'] = vText(locationmatch(location))
+            event['description'] = vText("\n".join([item + ": " + value for item, value in description.items()]))
 
             cal.add_component(event)
 
-    # if not os.path.exists(os.path.dirname(output_file)):
-        # try:
-            # os.makedirs(os.path.dirname(output_file))
-        # except OSError as exc: # Guard against race condition
-            # if exc.errno != errno.EEXIST:
-                # raise
+    if not os.path.exists(os.path.dirname(output_file)):
+        try:
+            os.makedirs(os.path.dirname(output_file))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
     
     with open(output_file, 'w') as f:
         f.write((cal.to_ical()).decode())
@@ -150,15 +141,16 @@ def locationmatch(location):
     :return: Shortcode version of location: ECS 125
     """
     # Tokenize the room # away from the building
-    building, room = location.rsplit(' ', 1)
+    if (location != "TBA"):
+        building, room = location.rsplit(' ', 1)
 
-    # If we know the short code for a building, return it, otherwise pass the original value straight through
-    if building in UVIC_BUILDING_CODES:
-        return UVIC_BUILDING_CODES[building] + " " + room
+        # If we know the short code for a building, return it, otherwise pass the original value straight through
+        if building in UVIC_BUILDING_CODES:
+            return UVIC_BUILDING_CODES[building] + " " + room
+        else:
+            return location
     else:
         return location
-
-
 
 if __name__ == "__main__":
 

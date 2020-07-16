@@ -1,26 +1,18 @@
 import os
 import http.cookiejar
+import mechanize
 from getpass import getpass
 
-import mechanize
-
-
-
-
-# TODO: find somewhere better to store cookies
 COOKIES_FILE = '.cookies'
-
 
 class Auth:
     def __init__(self):
-
         # Create a mechanize browser instance
         self._browser = mechanize.Browser()
         self._browser.set_handle_equiv(True)
         self._browser.set_handle_redirect(True)
         self._browser.set_handle_referer(True)
         self._browser.set_handle_robots(False)
-        # noinspection PyProtectedMember,PyUnresolvedReferences
         self._browser.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
         self._browser.addheaders = [('User-agent', 'Chrome')]
 
@@ -68,14 +60,12 @@ class Auth:
                     except ValueError:
                         continue
 
-                # print terms[term_number].get_labels()[0].text
                 selector.value = [terms[term_number].name]
 
                 response = self._browser.submit()
                 break
 
         # Save the browser cookies to a file
-        # noinspection PyProtectedMember
         self._browser._ua_handlers['_cookies'].cookiejar.save(COOKIES_FILE, ignore_discard=True, ignore_expires=True)
 
         return response
