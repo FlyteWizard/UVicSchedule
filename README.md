@@ -24,7 +24,7 @@ Replace `[TERM]` with the term for your `.ics` file. **Note** This is only for r
 python3 getSchedule.py calendar-TERM.ics
 ```
 
-*Note** `python3 getSchedule.py` will create an `.ics` named `calendar.ics` by default.
+**Note** `python3 getSchedule.py` will create an `.ics` named `calendar.ics` by default.
 
 ### Change Selected Term
 
